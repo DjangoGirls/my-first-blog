@@ -1,0 +1,15 @@
+onCreate:
+  - sudo apt-get update -y
+  - sudo apt-get install -y virtualenv
+  - virtualenv -p python3 ../venv
+  - |
+        . ../venv/bin/activate
+        pip install -U pip
+        pip install -r requirements.txt
+        python manage.py migrate
+onStart:
+  - |
+        . ../venv/bin/activate
+        WS_DOMAIN=`cat /home/ubuntu/runcode/ws-url-domain.txt`
+        printf "\nGO TO THIS URL TO VIEW PAGE \033[4;34m https://8000-${WS_DOMAIN}\033[0;30m\n\n"
+        python manage.py runserver
